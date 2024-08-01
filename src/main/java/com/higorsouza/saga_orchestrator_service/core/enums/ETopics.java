@@ -1,4 +1,4 @@
-package com.higorsouza.saga_orchestrator_service;
+package com.higorsouza.saga_orchestrator_service.core.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
