@@ -1,5 +1,6 @@
 package com.higorsouza.saga_orchestrator_service.core.consumer;
 
+import com.higorsouza.saga_orchestrator_service.core.saga.OrchestratorService;
 import com.higorsouza.saga_orchestrator_service.core.utils.JsonUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SagaOrchestratorConsumer {
 
+    private final OrchestratorService orchestratorService;
     private final JsonUtil jsonUtil;
 
     @KafkaListener(
@@ -21,6 +23,7 @@ public class SagaOrchestratorConsumer {
         log.info("Receiving event {} from start-saga topic", payload);
         var event = jsonUtil.toEvent(payload);
         log.info(event.toString());
+        orchestratorService.startSaga(event);
     }
 
     @KafkaListener(
@@ -31,6 +34,7 @@ public class SagaOrchestratorConsumer {
         log.info("Receiving event {} from orchestrator topic", payload);
         var event = jsonUtil.toEvent(payload);
         log.info(event.toString());
+        orchestratorService.continueSaga(event);
     }
 
     @KafkaListener(
@@ -41,6 +45,7 @@ public class SagaOrchestratorConsumer {
         log.info("Receiving event {} from finish-success topic", payload);
         var event = jsonUtil.toEvent(payload);
         log.info(event.toString());
+        orchestratorService.finishSagaSuccess(event);
     }
 
     @KafkaListener(
@@ -51,5 +56,6 @@ public class SagaOrchestratorConsumer {
         log.info("Receiving event {} from finish-fail topic", payload);
         var event = jsonUtil.toEvent(payload);
         log.info(event.toString());
+        orchestratorService.finishSagaFail(event);
     }
 }

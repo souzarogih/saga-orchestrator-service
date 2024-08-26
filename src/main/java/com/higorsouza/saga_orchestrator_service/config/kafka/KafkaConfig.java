@@ -88,7 +88,7 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic finishSuccessTopic() {
-        return buildTopic(ETopics.FINISH_SUCCESSO.getTopic());
+        return buildTopic(ETopics.FINISH_SUCCESS.getTopic());
     }
 
     @Bean
